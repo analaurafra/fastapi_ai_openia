@@ -1,44 +1,42 @@
-# FastAPI + OpenIA 
+# FastAPI + OpenIA
 
+Example application that exposes an HTTP API built with FastAPI to integrate with language models (OpenAI / compatible APIs). The goal is to provide a simple starting point for creating endpoints that generate text/responses using an LLM service.
 
-Aplicação exemplo que expõe uma API HTTP construída com FastAPI para integrar com modelos de linguagem (OpenAI / API compatíveis). O objetivo é fornecer um ponto de partida simples para criar endpoints que geram texto/ respostas usando um serviço de LLM.
-
-> Observação: ajuste exemplos de comandos e nomes de arquivos conforme a estrutura real do seu repositório (por exemplo `main:app`, `app.main:app`, etc.).
+> Note: adjust example commands and file names according to the actual structure of your repository (for example `main:app`, `app.main:app`, etc.).
 
 ![Gif_Swagger](./static/img/screen-capture-_16_.gif)
 
+## Features
 
-## Funcionalidades
+- HTTP endpoints with FastAPI to send prompts to a language model.
+- Support for configuration via environment variables (.env).
+- Example JSON request and response.
+- Compatible with OpenAI or other compatible APIs (Azure OpenAI, custom endpoints).
 
-- Endpoints HTTP com FastAPI para enviar prompts a um modelo de linguagem.
-- Suporte para configuração via variáveis de ambiente (.env).
-- Exemplo de requisição e resposta JSON.
-- Compatível com OpenAI ou outras APIs compatíveis (Azure OpenAI, endpoints customizados).
-
-## Tecnologias
+## Technologies
 
 - Python 3.10+
 - FastAPI
-- Uvicorn (servidor ASGI)
-- Requests / httpx (cliente HTTP — dependendo da implementação)
-- dotenv (carregamento de variáveis de ambiente)
-- (Opcional) Docker
+- Uvicorn (ASGI server)
+- Requests / httpx (HTTP client — depending on the implementation)
+- dotenv (environment variable loading)
+- (Optional) Docker
 
-## Pré-requisitos
+## Prerequisites
 
-- Python 3.10+ instalado
-- Conta e chave de API do provedor de LLM (por exemplo, OpenAI)
-- Git (opcional)
+- Python 3.10+ installed
+- Account and API key from an LLM provider (for example, OpenAI)
+- Git (optional)
 
-## Instalação (local)
+## Installation (local)
 
-1. Clone o repositório:
+1. Clone the repository:
 ```bash
 git clone https://github.com/analaurafra/fastapi_ai_openia.git
 cd fastapi_ai_openia
 ```
 
-2. Crie e ative um ambiente virtual:
+2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
 # Linux / macOS
@@ -47,83 +45,82 @@ source .venv/bin/activate
 .venv\Scripts\Activate.ps1
 ```
 
-3. Instale dependências:
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Crie um arquivo `.env` (ou exporte variáveis no seu ambiente) com as variáveis mínimas:
-
+4. Create a `.env` file (or export variables in your environment) with at least the following variables:
 ```env
-# Exemplo de variáveis
+# Example variables
 OPENAI_API_KEY=sk-...
-# Caso use endpoint customizado / Azure:
+# If you use a custom endpoint or Azure:
 # OPENAI_API_BASE=https://your-azure-openai-endpoint.openai.azure.com/
 # OPENAI_API_TYPE=azure
 # OPENAI_API_VERSION=2023-10-01
 # AZURE_OPENAI_DEPLOYMENT_NAME=deployment-name
 ```
 
-Ajuste as variáveis conforme a implementação do cliente no projeto.
+Adjust these variables according to the client implementation in the project.
 
-## Executando a aplicação
+## Running the application
 
-Com o ambiente ativo e variáveis configuradas, execute com Uvicorn:
+With the virtual environment active and environment variables set, run with Uvicorn:
 
 ```bash
-# ajuste "main:app" para o módulo/objeto correto do seu projeto se necessário
+# adjust "main:app" to the correct module/object for your project if necessary
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-A API estará disponível em: http://localhost:8000
+The API will be available at: http://localhost:8000
 
-A documentação interativa (Swagger UI) estará em: http://localhost:8000/docs  
+Interactive API docs (Swagger UI): http://localhost:8000/docs  
 Redoc: http://localhost:8000/redoc
 
-## Endpoints de exemplo
+## Example endpoints
 
-A estrutura exata dos endpoints pode variar — abaixo estão exemplos comuns que você pode adaptar.
+The exact endpoint structure may vary — below are common examples you can adapt.
 
-- GET /health
-  - Descrição: verifica se a API está no ar.
-  - Exemplo:
+- GET /health  
+  - Description: Check if the API is running.
+  - Example:
     ```bash
     curl http://localhost:8000/health
     ```
 
-- POST /generate
-  - Descrição: envia um prompt e recebe uma resposta gerada pelo modelo.
-  - Body (JSON) de exemplo:
+- POST /generate  
+  - Description: Send a prompt and receive a generated response from the model.
+  - Sample request body (JSON):
     ```json
     {
-      "prompt": "Escreva um resumo curto sobre energia renovável.",
+      "prompt": "Write a short summary about renewable energy.",
       "model": "gpt-4",
       "max_tokens": 200
     }
     ```
-  - Exemplo com curl:
+  - Curl example:
     ```bash
     curl -X POST "http://localhost:8000/generate" \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $OPENAI_API_KEY" \
-      -d '{"prompt":"Escreva um haicai sobre tecnologia.","model":"gpt-4","max_tokens":60}'
+      -d '{"prompt":"Write a haiku about technology.","model":"gpt-4","max_tokens":60}'
     ```
 
-- POST /chat (exemplo para conversação com histórico)
-  - Body (JSON) de exemplo:
+- POST /chat (example for conversational flows with context)  
+  - Sample request body (JSON):
     ```json
     {
       "messages": [
-        {"role": "system", "content": "Você é um assistente útil."},
-        {"role": "user", "content": "Me explique o que é FastAPI."}
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain what FastAPI is."}
       ],
       "model": "gpt-4"
     }
     ```
 
-A resposta típica será um JSON com o texto gerado, metadados e possivelmente a utilização de tokens.
+Typical responses are JSON objects containing the generated text, metadata, and possibly token usage.
 
-## Exemplo de resposta (exemplo genérico)
+## Sample response (generic example)
 ```json
 {
   "id": "resp_123",
@@ -131,7 +128,7 @@ A resposta típica será um JSON com o texto gerado, metadados e possivelmente a
   "model": "gpt-4",
   "choices": [
     {
-      "text": "FastAPI é um framework moderno, rápido (high-performance) para construir APIs com Python 3.7+...",
+      "text": "FastAPI is a modern, high-performance web framework for building APIs with Python 3.7+...",
       "index": 0
     }
   ],
@@ -143,50 +140,40 @@ A resposta típica será um JSON com o texto gerado, metadados e possivelmente a
 }
 ```
 
-## Docker (opcional)
+## Docker (optional)
 
-Exemplo rápido de como rodar com Docker (supondo que exista um Dockerfile no repositório):
+Quick example of running with Docker (assuming a Dockerfile exists in the repository):
 
 ```bash
 # build
 docker build -t fastapi-ai-openia:latest .
 
-# rodar (expondo porta 8000) — passe variáveis de ambiente
+# run (expose port 8000) — pass environment variables
 docker run -e OPENAI_API_KEY="${OPENAI_API_KEY}" -p 8000:8000 fastapi-ai-openia:latest
 ```
 
-## Testes
+## Tests
 
-- Se houver testes, execute:
+- If tests exist, run:
 ```bash
 pytest
 ```
 
-## Boas práticas de segurança
+## Security best practices
 
-- Nunca comite sua chave de API no repositório.
-- Use segredos do CI ou um cofre de segredos em vez de variáveis em texto puro quando em produção.
-- Configure limites, logging e monitoramento para proteger custos e uso indevido.
+- Never commit your API key to the repository.
+- Use CI secrets or a secret vault instead of plaintext environment variables for production.
+- Configure rate limits, logging, and monitoring to protect against misuse and unexpected costs.
 
-## Como contribuir
+## Contributing
 
-1. Abra uma issue descrevendo a feature/bug.
-2. Crie um branch com um nome descritivo.
-3. Faça commits pequenos e claros.
-4. Abra um pull request apontando para a branch principal do repositório.
+1. Open an issue describing the feature or bug.
+2. Create a branch with a descriptive name.
+3. Make small, focused commits.
+4. Open a pull request targeting the repository’s main branch.
 
-## Licença
+## License
 
-Adicione aqui a licença do seu projeto (por exemplo, MIT). Se ainda não definiu, considere adicionar um arquivo LICENSE.
-
----
-
-Se quiser, eu posso:
-- Gerar automaticamente um arquivo README.md pronto para commitar (posso incluir um template de .env).
-- Ajustar exemplos de endpoints para refletirem a implementação real (se você me enviar as rotas/handlers do projeto).
-- Adicionar badges (build, coverage, license) ao topo do README.
-
-Quer que eu gere o arquivo README.md já em formato pronto para adicionar ao repositório?  
-
+Add your project license here (for example, MIT). If you haven't chosen one yet, consider adding a LICENSE file.
 
 ![Thanks](./static/img/thumbs-up-computer.gif)
