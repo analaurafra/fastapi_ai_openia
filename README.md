@@ -1,8 +1,11 @@
 # FastAPI + OpenIA 
 
+
 Aplicação exemplo que expõe uma API HTTP construída com FastAPI para integrar com modelos de linguagem (OpenAI / API compatíveis). O objetivo é fornecer um ponto de partida simples para criar endpoints que geram texto/ respostas usando um serviço de LLM.
 
 > Observação: ajuste exemplos de comandos e nomes de arquivos conforme a estrutura real do seu repositório (por exemplo `main:app`, `app.main:app`, etc.).
+
+![Gif_Swagger](./static/img/screen-capture-_16_.gif)
 
 ## Funcionalidades
 
