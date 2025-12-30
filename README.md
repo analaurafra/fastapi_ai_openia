@@ -7,6 +7,7 @@ Aplicação exemplo que expõe uma API HTTP construída com FastAPI para integra
 
 ![Gif_Swagger](./static/img/screen-capture-_16_.gif)
 
+
 ## Funcionalidades
 
 - Endpoints HTTP com FastAPI para enviar prompts a um modelo de linguagem.
@@ -186,3 +187,6 @@ Se quiser, eu posso:
 - Adicionar badges (build, coverage, license) ao topo do README.
 
 Quer que eu gere o arquivo README.md já em formato pronto para adicionar ao repositório?  
+
+
+![Thanks](./static/img/thumbs-up-computer.gif)
